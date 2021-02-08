@@ -36,4 +36,14 @@ public class YoutubeSearchController {
 
         }
 
+        @GetMapping(value = "/latest", produces = MediaType.APPLICATION_JSON_VALUE)
+        public Mono<List<VideoDetail>> getLastestVideos(
+                        @RequestParam(name = "page", defaultValue = "0", required = false) final Integer page,
+                        @RequestParam(name = "size", defaultValue = "10", required = false) final Integer size,
+                        @RequestParam(name = "sortByPublishedTime", defaultValue = "desc", required = false) final String sortByPublishedTime) {
+
+                return youtubeSearchIndexer.getLatestVideoDetails(sortByPublishedTime, page, size);
+
+        }
+
 }

@@ -40,8 +40,6 @@ public class YoutubeSearchIndexerImpl implements YoutubeSearchIndexer {
     @Override
     public Mono<List<VideoDetail>> getVideoDetailsBySearchQuery(String query, Integer page, Integer size) {
 
-        List<VideoDetail> videoDetails = new ArrayList<>();
-
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
 
         boolQuery.must(QueryBuilders.queryStringQuery(query).field(Fields.TITLE).field(Fields.DESCRIPTION)
@@ -49,6 +47,16 @@ public class YoutubeSearchIndexerImpl implements YoutubeSearchIndexer {
 
         NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(boolQuery)
                 .withPageable(PageRequest.of(page, size)).build();
+
+        return elasticsearchTemplate.search(searchQuery, VideoDetail.class).map(m -> m.getContent()).collectList();
+    }
+
+    @Override
+    public Mono<List<VideoDetail>> getLatestVideoDetails(String sortByPublishedTime, Integer page, Integer size) {
+
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(QueryBuilders.matchAllQuery())
+                .withPageable(PageRequest.of(page, size))
+                .withSort(SortBuilders.fieldSort(Fields.PUBLISHED_AT).order(SortOrder.DESC)).build();
 
         return elasticsearchTemplate.search(searchQuery, VideoDetail.class).map(m -> m.getContent()).collectList();
     }

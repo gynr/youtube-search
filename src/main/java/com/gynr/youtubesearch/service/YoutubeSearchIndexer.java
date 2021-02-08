@@ -9,5 +9,8 @@ import reactor.core.publisher.Mono;
 public interface YoutubeSearchIndexer {
 
     void index(VideoDetail videoDetail);
+
     public Mono<List<VideoDetail>> getVideoDetailsBySearchQuery(String query, Integer page, Integer size);
+
+    public Mono<List<VideoDetail>> getLatestVideoDetails(String sortByPublishedTime, Integer page, Integer size);
 }
