@@ -42,6 +42,7 @@ public class HttpServiceImpl implements HttpService {
         search.setQ(query);
         search.setType("video");
         search.setMaxResults(50L);
+        search.setOrder("date");
 
         String publishAfter = LocalDateTime.now().minus(1, ChronoUnit.HOURS).toString();
         search.setPublishedAfter(new DateTime(publishAfter));

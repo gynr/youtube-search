@@ -22,7 +22,6 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonFilter(value = "beanFilter")
 public class VideoDetail {
 
     @Id
