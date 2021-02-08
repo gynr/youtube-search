@@ -48,8 +48,7 @@ public class YoutubeSearchIndexerImpl implements YoutubeSearchIndexer {
                 .fuzziness(Fuzziness.AUTO));
 
         NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(boolQuery)
-                .withPageable(PageRequest.of(page, size))
-                .withSort(SortBuilders.fieldSort(Fields.PUBLISHED_AT).order(SortOrder.DESC)).build();
+                .withPageable(PageRequest.of(page, size)).build();
 
         return elasticsearchTemplate.search(searchQuery, VideoDetail.class).map(m -> m.getContent()).collectList();
     }
