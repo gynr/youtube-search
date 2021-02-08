@@ -1,10 +1,7 @@
 package com.gynr.youtubesearch.domain;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 
@@ -37,6 +34,7 @@ public class VideoDetail {
     @Field(type = FieldType.Text, store = true)
     String description;
 
+    @Field(type = FieldType.Keyword, store = true)
     String channelId;
 
     @Field(type = FieldType.Text, store = true)
@@ -44,7 +42,7 @@ public class VideoDetail {
 
     private Date publishedAt;
 
-    @Field(type = FieldType.Keyword, store = true)
+    @Field(type = FieldType.Object, store = true)
     private Map<String, String> thumbnails;
 
     // Integer viewCount;
