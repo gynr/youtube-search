@@ -15,6 +15,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -23,11 +24,12 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonFilter(value = "beanFilter")
 public class VideoDetail {
 
     @Id
-    Integer id;
+    String id;
 
     @Field(type = FieldType.Text, store = true)
     String title;
@@ -35,7 +37,7 @@ public class VideoDetail {
     @Field(type = FieldType.Text, store = true)
     String description;
 
-    Integer channelId;
+    String channelId;
 
     @Field(type = FieldType.Text, store = true)
     String channelTitle;
