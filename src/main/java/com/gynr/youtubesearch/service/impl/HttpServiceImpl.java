@@ -1,13 +1,15 @@
 package com.gynr.youtubesearch.service.impl;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.youtube.YouTube;
@@ -31,7 +33,7 @@ public class HttpServiceImpl implements HttpService {
     @Autowired
     YouTube youtube;
 
-    public void fetch(String query) throws IOException {
+    public List<VideoDetail> fetchVideoDetails(String query) throws IOException {
 
         YouTube.Search.List search;
 
@@ -41,16 +43,20 @@ public class HttpServiceImpl implements HttpService {
         search.setType("video");
         search.setMaxResults(50L);
 
-        String publishAfter = LocalDateTime.now().minus(10, ChronoUnit.SECONDS).toString();
+        String publishAfter = LocalDateTime.now().minus(1, ChronoUnit.HOURS).toString();
         search.setPublishedAfter(new DateTime(publishAfter));
 
         SearchListResponse searchResponse = search.execute();
 
         List<SearchResult> searchResultList = searchResponse.getItems();
 
+        List<VideoDetail> videoDetails = new ArrayList<>();
+
         if (searchResultList != null) {
-            searchResultList.stream().map(m -> createVideoDetail(m)).forEach(m -> log.info(m.toString()));
+            videoDetails = searchResultList.stream().map(m -> createVideoDetail(m)).collect(Collectors.toList());
         }
+
+        return videoDetails;
     }
 
     private VideoDetail createVideoDetail(SearchResult m) {
@@ -64,7 +70,9 @@ public class HttpServiceImpl implements HttpService {
         videoDetail.setDescription(snippet.getDescription());
         videoDetail.setChannelId(snippet.getChannelId());
         videoDetail.setChannelTitle(snippet.getChannelTitle());
-        // videoDetail.setPublishedAt(snippet.getPublishedAt());
+
+        Date publishedAt = Date.from(Instant.ofEpochMilli(snippet.getPublishedAt().getValue()));
+        videoDetail.setPublishedAt(publishedAt);
 
         ThumbnailDetails thumnailDetails = snippet.getThumbnails();
         Map<String, String> thumnails = new HashMap<>();
@@ -72,12 +80,6 @@ public class HttpServiceImpl implements HttpService {
         thumnails.put("medium", thumnailDetails.getMedium().getUrl());
         thumnails.put("high", thumnailDetails.getHigh().getUrl());
         videoDetail.setThumbnails(thumnails);
-
-        // videoDetail.setViewCount(snippet.getViewCount());
-        // videoDetail.setLikeCount(snippet.getLikeCount());
-        // videoDetail.setDislikeCount(snippet.getDislikeCount());
-        // videoDetail.setFavoriteCount(snippet.getFavoriteCount());
-        // videoDetail.setCommentCount(snippet.getCommentCount());
 
         return videoDetail;
     }

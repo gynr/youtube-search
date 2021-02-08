@@ -47,11 +47,11 @@ public class VideoDetail {
     @Field(type = FieldType.Keyword, store = true)
     private Map<String, String> thumbnails;
 
-    Integer viewCount;
-    Integer likeCount;
-    Integer dislikeCount;
-    Integer favoriteCount;
-    Integer commentCount;
+    // Integer viewCount;
+    // Integer likeCount;
+    // Integer dislikeCount;
+    // Integer favoriteCount;
+    // Integer commentCount;
 
     public class ImageDetail {
 
