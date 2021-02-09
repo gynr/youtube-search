@@ -1,24 +1,26 @@
 # youtube-search
 Project to implement Youtube Data API in Spring+Elasticsearch.
 
-## Dependencies used to build docker image of the service:
-1. Maven
-2. Java 11
-3. Elasticsearch 7.9.3
-4. Youtube Data v3 API
-5. Docker
-6. Docker-Compose
-
 ## Youtube Data v3 API reference:
 - **You need to generate API key for Youtube Data v3 API**
 - YouTube data v3 API: https://developers.google.com/youtube/v3/getting-started
 - Search API reference: https://developers.google.com/youtube/v3/docs/search/list
 
+## Dependencies to RUN the service:
+1. Docker
+2. Docker-Compose
+
 ## How to Run the service:
 
 1. Create **.env** file with following evironment variables in project root folder where docker-compose.yml is present
+#### Required
 ```
-YOUTUBE_APIKEY={{Your Youtube Data v3 API key goes here.}}
+YOUTUBE_APIKEY=<Your Youtube Data v3 API key goes here.>
+```
+#### Optional (with default value given below)
+```
+youtube.indexer.searchtext=football
+youtube.indexer.interval=15000
 ```
 2. Run docker compose command.
 ```
@@ -50,6 +52,18 @@ query     |     REQUIRED  | text to search in title or decription field
 ```
 sh compile.sh
 ```
+or
+```
+./mvnw clean package -DskipTests=true
+``` 
+## Dependencies used to build docker image of the service:
+1. Maven
+2. Java 11
+3. Elasticsearch 7.9.3
+4. Youtube Data v3 API
+5. Docker
+6. Docker-Compose
+
 ## To build docker image file
 1. Run compile.sh script in project root.
 ```
