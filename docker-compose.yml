@@ -11,6 +11,9 @@ services:
       - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     environment:
       - YOUTUBE_APIKEY=${YOUTUBE_APIKEY}
+      - YOUTUBE_INDEXER_INTERVAL=${YOUTUBE_INDEXER_INTERVAL}
+      - YOUTUBE_INDEXER_INTERVAL_DELAY=${YOUTUBE_INDEXER_INTERVAL_DELAY}
+      - YOUTUBE_INDEXER_SEARCHTEXT=${YOUTUBE_INDEXER_SEARCHTEXT}
     links:
       - db:db
     restart: always
