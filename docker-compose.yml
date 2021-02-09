@@ -1,0 +1,55 @@
+version: "3.7"
+
+# Define services
+services:
+  # App backend service
+  youtube-search:
+    image: youtube-search:0.0.1-SNAPSHOT
+
+    # Configuration for building the docker image for the backend service
+    ports:
+      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    environment:
+      - YOUTUBE_APIKEY=${YOUTUBE_APIKEY}
+    links:
+      - db:db
+    restart: always
+    depends_on:
+      - db
+
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+
+  # Database Service
+  db:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+    container_name: db
+    environment:
+      - node.name=es01
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    restart: always
+    volumes:
+      - db-data:/var/lib/elasticsearch
+    networks:
+      backend:
+        aliases:
+          - myDb
+
+# Volumes
+volumes:
+  db-data:
+
+# Networks to be created to facilitate communication between containers
+networks:
+  backend:
+    driver: bridge
