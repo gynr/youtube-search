@@ -45,7 +45,7 @@ public class YoutubeSearcherImpl implements YoutubeSearcher {
     }
 
     @Override
-    public Mono<List<VideoDetail>> getLatestVideoDetails(String sortByPublishedTime, Integer page, Integer size) {
+    public Mono<List<VideoDetail>> getLatestVideoDetails(Integer page, Integer size) {
 
         NativeSearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(QueryBuilders.matchAllQuery())
                 .withPageable(PageRequest.of(page, size))

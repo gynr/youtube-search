@@ -10,5 +10,5 @@ public interface YoutubeSearcher {
 
     public Mono<List<VideoDetail>> getVideoDetailsBySearchQuery(String query, Integer page, Integer size);
 
-    public Mono<List<VideoDetail>> getLatestVideoDetails(String sortByPublishedTime, Integer page, Integer size);
+    public Mono<List<VideoDetail>> getLatestVideoDetails(Integer page, Integer size);
 }
