@@ -9,7 +9,6 @@ import com.gynr.youtubesearch.service.YoutubeSearchIndexer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +36,16 @@ public class YoutubeSearchIndexerImpl implements YoutubeSearchIndexer {
 
     }
 
-    
+    @Override
+    @Scheduled(fixedRateString = "${youtube.indexer.interval:10000}")
+    public void scheduler() throws IOException {
+
+        Scheduler scheduler = Schedulers.newBoundedElastic(5, 20, "YouTubeSearchTermPool");
+        log.info("Trying to retrive results...");
+        Flux.fromIterable(httpService.fetchVideoDetails("football")).publishOn(scheduler)
+                .subscribe(videoDetail -> index(videoDetail));
+        log.info("Done get results.");
+
+    }
 
 }
