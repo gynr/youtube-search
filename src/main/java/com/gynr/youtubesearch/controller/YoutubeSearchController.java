@@ -1,10 +1,9 @@
 package com.gynr.youtubesearch.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.gynr.youtubesearch.domain.VideoDetail;
-import com.gynr.youtubesearch.service.YoutubeSearchIndexer;
+import com.gynr.youtubesearch.service.YoutubeSearcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,7 +23,7 @@ import reactor.core.publisher.Mono;
 public class YoutubeSearchController {
 
         @Autowired
-        YoutubeSearchIndexer youtubeSearchIndexer;
+        YoutubeSearcher youtubeSearcher;
 
         @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
         public Mono<List<VideoDetail>> getVideoBySearchQuery(
@@ -32,7 +31,7 @@ public class YoutubeSearchController {
                         @RequestParam(name = "size", defaultValue = "10", required = false) final Integer size,
                         @RequestParam(name = "query", required = true) final String query) {
 
-                return youtubeSearchIndexer.getVideoDetailsBySearchQuery(query, page, size);
+                return youtubeSearcher.getVideoDetailsBySearchQuery(query, page, size);
 
         }
 
@@ -42,7 +41,7 @@ public class YoutubeSearchController {
                         @RequestParam(name = "size", defaultValue = "10", required = false) final Integer size,
                         @RequestParam(name = "sortByPublishedTime", defaultValue = "desc", required = false) final String sortByPublishedTime) {
 
-                return youtubeSearchIndexer.getLatestVideoDetails(sortByPublishedTime, page, size);
+                return youtubeSearcher.getLatestVideoDetails(sortByPublishedTime, page, size);
 
         }
 

@@ -1,5 +1,6 @@
 package com.gynr.youtubesearch.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.gynr.youtubesearch.domain.VideoDetail;
@@ -10,7 +11,6 @@ public interface YoutubeSearchIndexer {
 
     void index(VideoDetail videoDetail);
 
-    public Mono<List<VideoDetail>> getVideoDetailsBySearchQuery(String query, Integer page, Integer size);
+    void scheduler() throws IOException;
 
-    public Mono<List<VideoDetail>> getLatestVideoDetails(String sortByPublishedTime, Integer page, Integer size);
 }
