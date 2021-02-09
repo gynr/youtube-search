@@ -1,2 +1,1 @@
-mvn clean package -DskipTests=true
-./mvnw spring-boot:build-image -DskipTests=true
+./mvnw spring-boot:build-image -DskipTests=true -Dspring-boot.build-image.imageName=gynr/youtube-search:0.0.1-SNAPSHOT
