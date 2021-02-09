@@ -62,6 +62,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<repository>gynr/${project.artifactId}</repository>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
