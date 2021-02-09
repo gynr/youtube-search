@@ -29,6 +29,9 @@ public class YoutubeSearchApplication {
 	@Autowired
 	private Environment env;
 
+	/**
+	 * Youtube Data api web client configuration.
+	 */
 	@Bean
 	public YouTube webClient() {
 		return new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), new HttpRequestInitializer() {

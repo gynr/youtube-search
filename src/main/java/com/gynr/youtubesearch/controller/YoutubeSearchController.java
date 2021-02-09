@@ -25,6 +25,9 @@ public class YoutubeSearchController {
         @Autowired
         YoutubeSearcher youtubeSearcher;
 
+        /**
+         * Return video details list for searchu which match title or description.
+         */
         @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
         public Mono<List<VideoDetail>> getVideoBySearchQuery(
                         @RequestParam(name = "page", defaultValue = "0", required = false) final Integer page,
@@ -35,6 +38,9 @@ public class YoutubeSearchController {
 
         }
 
+        /**
+         * Return latest video list i.e descending order of pushlished time.
+         */
         @GetMapping(value = "/latest", produces = MediaType.APPLICATION_JSON_VALUE)
         public Mono<List<VideoDetail>> getLastestVideos(
                         @RequestParam(name = "page", defaultValue = "0", required = false) final Integer page,

@@ -33,6 +33,9 @@ public class HttpServiceImpl implements HttpService {
     @Autowired
     YouTube youtube;
 
+    /** 
+     * Fetch Video Details for given search term from Youtube data api.
+     */
     public List<VideoDetail> fetchVideoDetails(String query) throws IOException {
 
         YouTube.Search.List search;
