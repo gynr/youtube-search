@@ -8,6 +8,7 @@ import com.gynr.youtubesearch.service.HttpService;
 import com.gynr.youtubesearch.service.YoutubeSearchIndexer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.elasticsearch.core.ReactiveElasticsearchTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,6 +32,9 @@ public class YoutubeSearchIndexerImpl implements YoutubeSearchIndexer {
     @Autowired
     HttpService httpService;
 
+    @Value("${youtube.indexer.search-text:football}")
+    String searchText;
+
     @Override
     public void index(VideoDetail videoDetail) {
         elasticRepository.save(videoDetail).subscribe();
@@ -40,12 +44,13 @@ public class YoutubeSearchIndexerImpl implements YoutubeSearchIndexer {
     @Override
     @Scheduled(fixedRateString = "${youtube.indexer.interval:10000}")
     @Async
-    /** 
-     * Fetch and index youtube data in elasticsearch asynchronously. */ 
+    /**
+     * Fetch and index youtube data in elasticsearch asynchronously.
+     */
     public void scheduler() throws IOException {
 
-        log.info("Trying to retrive results...");
-        httpService.fetchVideoDetails("football").forEach(m -> index(m));
+        log.info("Trying to retrive results for searchTerm: " + searchText + " ...");
+        httpService.fetchVideoDetails(searchText).forEach(m -> index(m));
         log.info("Done get results.");
 
     }
