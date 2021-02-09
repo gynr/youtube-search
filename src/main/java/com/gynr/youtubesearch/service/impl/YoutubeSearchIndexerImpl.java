@@ -42,11 +42,8 @@ public class YoutubeSearchIndexerImpl implements YoutubeSearchIndexer {
     @Async
     public void scheduler() throws IOException {
 
-        Scheduler scheduler = Schedulers.newBoundedElastic(5, 20, "YouTubeSearchTermPool");
         log.info("Trying to retrive results...");
-
-        Flux.fromIterable(httpService.fetchVideoDetails("football")).publishOn(scheduler)
-                .subscribe(videoDetail -> index(videoDetail));
+        httpService.fetchVideoDetails("football").forEach(m -> index(m));
         log.info("Done get results.");
 
     }
