@@ -6,6 +6,8 @@ Project to implement Youtube Data API in Spring+Elasticsearch.
 2. Java 11
 3. Elasticsearch 7.9.3
 4. Youtube Data v3 API
+5. Docker
+6. Docker-Compose
 
 ## Youtube Data v3 API reference:
 - **You need to generate API key for Youtube Data v3 API**
