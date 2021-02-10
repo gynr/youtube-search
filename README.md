@@ -20,7 +20,7 @@ YOUTUBE_APIKEY=<Your Youtube Data v3 API key goes here.>
 #### Optional (with default value given below)
 ```
 YOUTUBE_INDEXER_INTERVAL=15000
-YOUTUBE_INDEXER_INTERVAL_DELAY=10000
+YOUTUBE_INDEXER_SEARCHTEXT=football
 ```
 2. Run docker compose command.
 ```
